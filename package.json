@@ -1,6 +1,6 @@
 {
   "name": "tftp-server",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "description": "A flexible tftp server",
   "main": "index.js",
   "scripts": {
