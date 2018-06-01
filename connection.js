@@ -67,8 +67,9 @@ module.exports = (ingress, outgress) => edfsm({
 				ctx.block = 0;
 				ctx.blocksize = 512;
 				next('prepareDataPacket');
-			}, () => {
-				tryRoute(i + 1);
+			}, (err) => {
+				if (err instanceof Error) next(err);
+				else tryRoute(i + 1);
 			});
 		} else {
 			tryRoute(i + 1);

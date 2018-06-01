@@ -97,6 +97,22 @@ describe('getData', () => {
 		expect(routes[2].handler.mock.calls.length).toBe(1);
 	});
 
+	test('return error from route', () => {
+		const routes = [ {
+			filter: undefined,
+			handler: jest.fn()
+		}, {
+			filter: undefined,
+			handler: jest.fn()
+		}];
+		const ctx = { routes, filename: 'file' };
+		const c = connection().testState('getData', ctx);
+		const errMsg = 'Test message.';
+		routes[0].handler.mock.calls[0][2](new Error(errMsg));
+		expect(routes[1].handler.mock.calls.length).toBe(0);
+		expect(c.next.mock.calls[0][0].message).toEqual(errMsg);
+	});
+
 	test('prepare Chunk if route returns data', () => {
 		const routes = [ {
 			handler: jest.fn()
