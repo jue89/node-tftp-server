@@ -46,8 +46,8 @@ module.exports = (ingress, outgress) => edfsm({
 	ctx.filename = req.cstr();
 	if (!ctx.filename.length) return next(new Error('File not found.'));
 
-	// Make sure we are in octet mode
-	if (req.cstr().toLowerCase() !== 'octet') return next(new Error('Illegal TFTP operation.'));
+	// Read mode
+	ctx.mode = req.cstr();
 
 	next('getData');
 }).state('getData', (ctx, i, o, next) => {

@@ -15,13 +15,15 @@ describe('init', () => {
 		expect(c.next.mock.calls[0][0].message).toEqual('Illegal TFTP operation.');
 	});
 
-	test('read filename', () => {
+	test('read filename and mode', () => {
 		const filename = 'testfile';
+		const mode = 'octet';
 		const ctx = {
-			request: Buffer.concat([ RRQ, Buffer.from(filename), NULL, Buffer.from('octet'), NULL ])
+			request: Buffer.concat([ RRQ, Buffer.from(filename), NULL, Buffer.from(mode), NULL ])
 		};
 		connection().testState('init', ctx);
 		expect(ctx.filename).toEqual(filename);
+		expect(ctx.mode).toEqual(mode);
 	});
 
 	test('make sure filename is given', () => {
@@ -30,14 +32,6 @@ describe('init', () => {
 		};
 		const c = connection().testState('init', ctx);
 		expect(c.next.mock.calls[0][0].message).toEqual('File not found.');
-	});
-
-	test('read filename', () => {
-		const ctx = {
-			request: Buffer.concat([ RRQ, Buffer.from('testfile'), NULL, Buffer.from('mail'), NULL ])
-		};
-		const c = connection().testState('init', ctx);
-		expect(c.next.mock.calls[0][0].message).toEqual('Illegal TFTP operation.');
 	});
 
 	test('next state', () => {
