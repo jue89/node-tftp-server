@@ -1,6 +1,8 @@
 const dgram = require('dgram');
 const Connection = require('./connection.js');
 const EventEmitter = require('events').EventEmitter;
+const util = require('util');
+const debug = util.debuglog('tftp');
 
 function TFTPServer () {
 	this.socket = dgram.createSocket('udp6');
@@ -15,15 +17,20 @@ function TFTPServer () {
 	// Install listener to incoming packets
 	this.socket.on('message', (msg, rinfo) => {
 		const clientKey = `${rinfo.address}_${rinfo.port}`;
+		debug('=>', clientKey, msg);
 		if (this.connections[clientKey]) {
 			// Connection already has been established
 			this.ingress.emit(clientKey, msg);
 		} else {
 			// First packet from client:
 			// Listen to outgress packets
-			const onOutgress = (msg) => this.socket.send(msg, 0, msg.length, rinfo.port, rinfo.address);
+			const onOutgress = (msg) => {
+				debug('<=', clientKey, msg);
+				this.socket.send(msg, 0, msg.length, rinfo.port, rinfo.address);
+			};
 			this.outgress.on(clientKey, onOutgress);
 			// Create new connection FSM
+			debug('+ ', clientKey);
 			this.connections[clientKey] = this.connectionFactory.run(
 				Object.assign({
 					request: msg,
@@ -34,6 +41,7 @@ function TFTPServer () {
 					// FSM has been destroy
 					this.outgress.removeListener(clientKey, onOutgress);
 					delete this.connections[clientKey];
+					debug('- ', clientKey);
 				}
 			);
 		}
