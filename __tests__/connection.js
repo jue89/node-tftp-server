@@ -63,7 +63,7 @@ describe('getData', () => {
 			filter: /nope/,
 			handler: jest.fn()
 		}, {
-			filter: /file/,
+			filter: 'file',
 			handler: jest.fn()
 		}, {
 			filter: /file/,

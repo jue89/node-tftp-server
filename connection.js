@@ -60,7 +60,11 @@ module.exports = (ingress, outgress) => edfsm({
 		} else if (!ctx.routes[i]) {
 			// Route has been unregistered -> ignore
 			tryRoute(i + 1);
-		} else if (ctx.routes[i].filter === undefined || ctx.routes[i].filter.test(ctx.filename)) {
+		} else if (
+			ctx.routes[i].filter === undefined ||
+			(ctx.routes[i].filter instanceof RegExp && ctx.routes[i].filter.test(ctx.filename)) ||
+			ctx.routes[i].filter === ctx.filename
+		) {
 			// Call handler
 			ctx.routes[i].handler(ctx, (data) => {
 				ctx.data = data;
