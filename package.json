@@ -4,7 +4,7 @@
   "description": "A flexible tftp server",
   "main": "index.js",
   "scripts": {
-    "test": "happiness && jest",
+    "test": "happiness && jest --verbose",
     "watch": "jest --watchAll"
   },
   "repository": {
@@ -37,5 +37,8 @@
   "jest": {
     "automock": false,
     "clearMocks": true
+  },
+  "dependencies": {
+    "edfsm": "^1.0.0"
   }
 }
