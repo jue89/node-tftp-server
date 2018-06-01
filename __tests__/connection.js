@@ -184,6 +184,7 @@ describe('sendDataPacket', () => {
 			} catch (e) { done(e); }
 		});
 		const c = connection(ingress, outgress).testState('sendDataPacket', ctx);
+		expect(ctx.try).toBe(4);
 		expect(c.next.timeout.mock.calls[0][0]).toBe(1000);
 		expect(c.next.timeout.mock.calls[0][1]).toEqual('sendDataPacket');
 	});

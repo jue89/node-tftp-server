@@ -93,7 +93,7 @@ module.exports = (ingress, outgress) => edfsm({
 	next('sendDataPacket');
 }).state('sendDataPacket', (ctx, i, o, next) => {
 	// Abort after the third try
-	if (ctx.try > 3) return next(null);
+	if (ctx.try++ > 3) return next(null);
 
 	// Send prepared chunk
 	o(ctx.clientKey, ctx.packet);
