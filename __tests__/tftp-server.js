@@ -6,9 +6,15 @@ const connection = require('../connection.js');
 
 const TFTPServer = require('../tftp-server.js');
 
-test('create new udp socket', () => {
-	const t = new TFTPServer();
+test('create new udp6 socket', () => {
+	const t = new TFTPServer('udp6');
 	expect(dgram.createSocket.mock.calls[0][0]).toEqual('udp6');
+	expect(t.socket).toBeInstanceOf(dgram.Socket);
+});
+
+test('create new udp4 socket', () => {
+	const t = new TFTPServer('udp4');
+	expect(dgram.createSocket.mock.calls[0][0]).toEqual('udp4');
 	expect(t.socket).toBeInstanceOf(dgram.Socket);
 });
 
