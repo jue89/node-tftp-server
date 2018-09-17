@@ -4,8 +4,8 @@ const EventEmitter = require('events').EventEmitter;
 const util = require('util');
 const debug = util.debuglog('tftp');
 
-function TFTPServer () {
-	this.socket = dgram.createSocket('udp6');
+function TFTPServer (socketType) {
+	this.socket = dgram.createSocket(socketType);
 	this.routes = [];
 	this.connections = {};
 	this.ingress = new EventEmitter();

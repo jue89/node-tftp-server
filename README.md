@@ -11,10 +11,10 @@ const TFTP = require('tftp-server');
 ### Method: createServer()
 
 ```js
-const srv = TFTP.createServer();
+const srv = TFTP.createServer([socketType]);
 ```
 
-Creates a new TFTP server and returns an instance of ```TFTPServer```.
+Creates a new TFTP server and returns an instance of ```TFTPServer```. By default ```socketType``` is ```'udp6'```. In most cases this also listens for IPv4 connections using the dual-stack capabilities of your kernel. But you also can avoid IPv6 by specifying ```'udp4'``` as ```socketType```.
 
 ### Class: TFTPServer
 
