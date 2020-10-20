@@ -6,7 +6,7 @@ declare module 'tftp-server' {
         mode: "netascii" | "octet" | "mail"
     }
     export type Response = (buf: Buffer) => void
-    export type Handler = (req: Request, res: Response, next: () => void) => void
+    export type Handler = (req: Request, res: Response, next: (err?: Error) => void) => void
     export type Handle = number
     
     export class TFTPServer {
@@ -18,6 +18,6 @@ declare module 'tftp-server' {
         destroy(cb?: Function): void
     }
 
-    export function createServer(type: dgram.SocketType = 'udp6'): TFTPServer
-    export function serveStatic (dir: string): Handler
+    export function createServer(type?: dgram.SocketType): TFTPServer
+    export function serveStatic(dir: string): Handler
 }
